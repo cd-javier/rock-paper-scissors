@@ -21,10 +21,7 @@ function getHumanChoice() {
 let computerScore = 0;
 let humanScore = 0;
 
-function playRound() {
-  const humanChoice = getHumanChoice();
-  const computerChoice = getComputerChoice();
-
+function playRound(humanChoice, computerChoice) {
   if (
     (humanChoice === "rock" && computerChoice === "scissors") ||
     (humanChoice === "paper" && computerChoice === "rock") ||
@@ -54,7 +51,7 @@ function playFiveRounds() {
 
     alert("ROUND " + i);
 
-    playRound();
+    playRound(getHumanChoice(), getComputerChoice());
   }
 
   if (humanScore > computerScore) {
