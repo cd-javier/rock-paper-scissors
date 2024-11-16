@@ -37,6 +37,10 @@ Initially I checked that the user had entered a valid value inside of the `playR
 Check the user's entry inside of the `getHumanChoice()` function. If the entry doesn't match one of the three possibilities (using `.toLowerCase` avoid making it case-specific), the function restarts.
 Through this, I discovered a function can call itself inside of an `if` statement.
 
+Another solution would've been to create a `while` loop:
+
+    while ( humanChoice !== rock && ... ) { ... }
+
 
 ### Basic `if` syntax
 
