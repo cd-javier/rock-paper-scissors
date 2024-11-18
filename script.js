@@ -1,9 +1,45 @@
+let computerScore = 0;
+let humanScore = 0;
+
+// -----------------------
+//  DOM Queries
+// -----------------------
+
+// Buttons
+const gameChoice = document.querySelectorAll(".game-choice");
+
+// Score Display
+const scoreLog = document.querySelector("#score-log");
+const scoreHeading = document.createElement("h2");
+scoreHeading.textContent = "SCORE";
+const computerScoreDisplay = document.createElement("p");
+const humanScoreDisplay = document.createElement("p");
+
+// Game Play Display
+const gamePlayLog = document.querySelector("#game-play-log");
+const logHeading = document.createElement("h2");
+logHeading.textContent = "GAME LOG";
+const displayComputerChoice = document.createElement("p");
+const displayHumanChoice = document.createElement("p");
+const displayResult = document.createElement("p");
+displayResult.classList.add("italics");
+const finalResult = document.createElement("p");
+finalResult.classList.add("final-result");
+
+// Restart Button
+const restartContainer = document.querySelector("#restart-container");
+const restartButton = document.createElement("button");
+restartButton.textContent = "Restart";
+
+// -----------------------
+//  Utility Functions
+// -----------------------
+
 function getComputerChoice() {
   // The computer chooses at random between the three options
   const gameChoices = ["rock", "paper", "scissors"];
   return gameChoices[Math.floor(Math.random() * 3)];
 }
-
 function getWinPhrase() {
   // Create an array of different phrases to cheer the user
   const phrases = [
@@ -16,7 +52,7 @@ function getWinPhrase() {
     "You win! Bow before the Rock Paper Scissors master!",
     "You win! The game can't handle your brilliance!",
   ];
-  return phrases[Math.floor(Math.random() * 8)]; // Choose one at random
+  return phrases[Math.floor(Math.random() * phrases.length)]; // Choose one at random
 }
 function getLosePhrase() {
   const phrases = [
@@ -29,7 +65,7 @@ function getLosePhrase() {
     "You lost! The computer just flexed on you.",
     "You lost! Maybe this isn't your thing.",
   ];
-  return phrases[Math.floor(Math.random() * 8)];
+  return phrases[Math.floor(Math.random() * phrases.length)];
 }
 function getTiePhrase() {
   const phrases = [
@@ -42,18 +78,28 @@ function getTiePhrase() {
     "Tied! Are you two long-lost twins or what?",
     "Tied! The suspense... or lack thereof.",
   ];
-  return phrases[Math.floor(Math.random() * 8)];
+  return phrases[Math.floor(Math.random() * phrases.length)];
 }
 
-let computerScore = 0;
-let humanScore = 0;
+// -----------------------
+//  Game Logic Functions
+// -----------------------
 
-function playRound(humanChoice, computerChoice) {
+function updateDisplay(humanChoice, computerChoice) {
   displayComputerChoice.textContent = "Computer chose: " + computerChoice; // Create text that will be displayed
   displayHumanChoice.textContent = "You chose: " + humanChoice;
   gamePlayLog.appendChild(logHeading); // Display text
   gamePlayLog.appendChild(displayComputerChoice);
   gamePlayLog.appendChild(displayHumanChoice);
+  gamePlayLog.appendChild(displayResult); // Display cheer
+  computerScoreDisplay.textContent = "Computer: " + computerScore; // Update score displays
+  humanScoreDisplay.textContent = "Human: " + humanScore;
+  scoreLog.appendChild(scoreHeading); // Display scores
+  scoreLog.appendChild(computerScoreDisplay);
+  scoreLog.appendChild(humanScoreDisplay);
+}
+
+function playRound(humanChoice, computerChoice) {
   if (
     (humanChoice === "rock" && computerChoice === "scissors") || // Basic game play
     (humanChoice === "paper" && computerChoice === "rock") ||
@@ -67,38 +113,13 @@ function playRound(humanChoice, computerChoice) {
     computerScore++;
     displayResult.textContent = getLosePhrase();
   }
-  gamePlayLog.appendChild(displayResult); // Display cheer
-  computerScoreDisplay.textContent = "Computer: " + computerScore; // Update score displays
-  humanScoreDisplay.textContent = "Human: " + humanScore;
-  scoreLog.appendChild(scoreHeading); // Display scores
-  scoreLog.appendChild(computerScoreDisplay);
-  scoreLog.appendChild(humanScoreDisplay);
+
+  updateDisplay(humanChoice, computerChoice);
+
   if (computerScore === 5 || humanScore === 5) {
     endGame();
   }
 }
-
-const gameChoice = document.querySelectorAll(".game-choice");
-
-const scoreLog = document.querySelector("#score-log");
-const scoreHeading = document.createElement("h2");
-scoreHeading.textContent = "SCORE";
-const computerScoreDisplay = document.createElement("p");
-const humanScoreDisplay = document.createElement("p");
-
-const gamePlayLog = document.querySelector("#game-play-log");
-const logHeading = document.createElement("h2");
-logHeading.textContent = "GAME LOG";
-const displayComputerChoice = document.createElement("p");
-const displayHumanChoice = document.createElement("p");
-const displayResult = document.createElement("p");
-displayResult.classList.add("italics");
-const finalResult = document.createElement("p");
-finalResult.classList.add("final-result");
-
-const restartContainer = document.querySelector("#restart-container");
-const restartButton = document.createElement("button");
-restartButton.textContent = "Restart";
 
 function endGame() {
   if (humanScore > computerScore) {
@@ -110,6 +131,20 @@ function endGame() {
   restartContainer.appendChild(restartButton);
   gamePlayLog.appendChild(finalResult);
 }
+
+function resetGame() {
+  scoreLog.textContent = "";
+  gamePlayLog.textContent = "";
+  scoreLog.classList.toggle("logs");
+  gamePlayLog.classList.toggle("logs");
+  restartContainer.removeChild(restartButton);
+  computerScore = 0;
+  humanScore = 0;
+}
+
+// -----------------------
+//  Event Listeners
+// -----------------------
 
 gameChoice.forEach((button) => {
   button.addEventListener("click", () => {
@@ -123,12 +158,4 @@ gameChoice.forEach((button) => {
   });
 });
 
-restartButton.addEventListener("click", () => {
-  scoreLog.textContent = "";
-  gamePlayLog.textContent = "";
-  scoreLog.classList.toggle("logs");
-  gamePlayLog.classList.toggle("logs");
-  restartContainer.removeChild(restartButton);
-  computerScore = 0;
-  humanScore = 0;
-});
+restartButton.addEventListener("click", resetGame);
