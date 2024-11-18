@@ -73,6 +73,9 @@ function playRound(humanChoice, computerChoice) {
   scoreLog.appendChild(scoreHeading); // Display scores
   scoreLog.appendChild(computerScoreDisplay);
   scoreLog.appendChild(humanScoreDisplay);
+  if (computerScore === 5 || humanScore === 5) {
+    endGame();
+  }
 }
 
 const gameChoice = document.querySelectorAll(".game-choice");
@@ -116,8 +119,6 @@ gameChoice.forEach((button) => {
       gamePlayLog.classList.add("logs");
       scoreLog.classList.add("logs");
       playRound(humanChoice, getComputerChoice());
-    } else {
-      endGame();
     }
   });
 });
