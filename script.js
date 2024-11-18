@@ -117,6 +117,8 @@ gameChoice.forEach((button) => {
   button.addEventListener("click", () => {
     let humanChoice;
     humanChoice = button.textContent.toLowerCase();
+    gamePlayLog.classList.add('logs')
+    scoreLog.classList.add('logs')
     playRound(humanChoice, getComputerChoice());
     displayFinalResult();
   });
