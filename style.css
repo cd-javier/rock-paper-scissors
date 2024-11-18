@@ -9,7 +9,7 @@ body {
     background-color: #E9F7FF;
 }
 
-#game-choice-container {
+.button-container {
     margin: 10px;
     display: flex;
     gap: 10px;
@@ -23,6 +23,11 @@ button {
     border-radius: 4px;
     padding: 10px;
     width: 100px;
+}
+
+button:hover {
+    background-color: #006BAD;
+    cursor: pointer;
 }
 
 #log-container {
@@ -53,4 +58,14 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.final-result {
+    font-weight: bold;
+    font-size: 18px;
+    color: #0086DA;
+}
+
+.italics {
+    font-style: italic;
 }

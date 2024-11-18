@@ -53,7 +53,7 @@ let humanScore = 0;
 function playRound(humanChoice, computerChoice) {
   displayComputerChoice.textContent = "Computer chose: " + computerChoice;
   displayHumanChoice.textContent = "You chose: " + humanChoice;
-  gamePlayLog.appendChild(logHeading)
+  gamePlayLog.appendChild(logHeading);
   gamePlayLog.appendChild(displayComputerChoice);
   gamePlayLog.appendChild(displayHumanChoice);
   if (
@@ -89,37 +89,49 @@ const humanScoreDisplay = document.createElement("p");
 
 const gamePlayLog = document.querySelector("#game-play-log");
 const logHeading = document.createElement("h2");
-logHeading.textContent = "GAME LOG"
+logHeading.textContent = "GAME LOG";
 const displayComputerChoice = document.createElement("p");
 const displayHumanChoice = document.createElement("p");
 const displayResult = document.createElement("p");
+displayResult.classList.add('italics')
 const finalResult = document.createElement("p");
+finalResult.classList.add("final-result");
 
-function displayFinalResult() {
+const restartContainer = document.querySelector("#restart-container");
+const restartButton = document.createElement("button");
+restartButton.textContent = "Restart";
+
+function endGame() {
   if (humanScore > computerScore) {
-    finalResult.textContent = "You win!";
+    finalResult.textContent = "YOU WIN!";
   } else {
-    finalResult.textContent = "You lose!";
+    finalResult.textContent = "YOU LOSE!";
   }
 
-  if (humanScore === 5) {
-    gamePlayLog.appendChild(finalResult);
-    humanScore = 0;
-    computerScore = 0;
-  } else if (computerScore === 5) {
-    gamePlayLog.appendChild(finalResult);
-    humanScore = 0;
-    computerScore = 0;
-  }
+  restartContainer.appendChild(restartButton);
+  gamePlayLog.appendChild(finalResult);
 }
 
 gameChoice.forEach((button) => {
   button.addEventListener("click", () => {
-    let humanChoice;
-    humanChoice = button.textContent.toLowerCase();
-    gamePlayLog.classList.add('logs')
-    scoreLog.classList.add('logs')
-    playRound(humanChoice, getComputerChoice());
-    displayFinalResult();
+    if (humanScore < 5 && computerScore < 5) {
+      let humanChoice;
+      humanChoice = button.textContent.toLowerCase();
+      gamePlayLog.classList.add("logs");
+      scoreLog.classList.add("logs");
+      playRound(humanChoice, getComputerChoice());
+    } else {
+      endGame();
+    }
   });
 });
+
+restartButton.addEventListener("click", () => {
+  scoreLog.textContent = '';
+  gamePlayLog.textContent = '';
+  scoreLog.classList.toggle('logs')
+  gamePlayLog.classList.toggle('logs')
+  restartContainer.removeChild(restartButton)
+  computerScore = 0;
+  humanScore = 0;
+})
