@@ -18,7 +18,6 @@ function getWinPhrase() {
   ];
   return phrases[Math.floor(Math.random() * 8)]; // Choose one at random
 }
-
 function getLosePhrase() {
   const phrases = [
     "You lost this one, you're a loser!",
@@ -32,7 +31,6 @@ function getLosePhrase() {
   ];
   return phrases[Math.floor(Math.random() * 8)];
 }
-
 function getTiePhrase() {
   const phrases = [
     "Tied... boriiiiing.",
@@ -51,9 +49,9 @@ let computerScore = 0;
 let humanScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-  displayComputerChoice.textContent = "Computer chose: " + computerChoice;
+  displayComputerChoice.textContent = "Computer chose: " + computerChoice; // Create text that will be displayed
   displayHumanChoice.textContent = "You chose: " + humanChoice;
-  gamePlayLog.appendChild(logHeading);
+  gamePlayLog.appendChild(logHeading); // Display text
   gamePlayLog.appendChild(displayComputerChoice);
   gamePlayLog.appendChild(displayHumanChoice);
   if (
@@ -61,20 +59,18 @@ function playRound(humanChoice, computerChoice) {
     (humanChoice === "paper" && computerChoice === "rock") ||
     (humanChoice === "scissors" && computerChoice === "paper")
   ) {
-    humanScore++; // Score is updated
-    displayResult.textContent = getWinPhrase();
-    gamePlayLog.appendChild(displayResult);
+    humanScore++; // Update Score
+    displayResult.textContent = getWinPhrase(); // Update cheer display
   } else if (humanChoice === computerChoice) {
     displayResult.textContent = getTiePhrase();
-    gamePlayLog.appendChild(displayResult);
   } else {
     computerScore++;
     displayResult.textContent = getLosePhrase();
-    gamePlayLog.appendChild(displayResult);
   }
-  computerScoreDisplay.textContent = "Computer: " + computerScore;
+  gamePlayLog.appendChild(displayResult); // Display cheer
+  computerScoreDisplay.textContent = "Computer: " + computerScore; // Update score displays
   humanScoreDisplay.textContent = "Human: " + humanScore;
-  scoreLog.appendChild(scoreHeading);
+  scoreLog.appendChild(scoreHeading); // Display scores
   scoreLog.appendChild(computerScoreDisplay);
   scoreLog.appendChild(humanScoreDisplay);
 }
@@ -93,7 +89,7 @@ logHeading.textContent = "GAME LOG";
 const displayComputerChoice = document.createElement("p");
 const displayHumanChoice = document.createElement("p");
 const displayResult = document.createElement("p");
-displayResult.classList.add('italics')
+displayResult.classList.add("italics");
 const finalResult = document.createElement("p");
 finalResult.classList.add("final-result");
 
@@ -127,11 +123,11 @@ gameChoice.forEach((button) => {
 });
 
 restartButton.addEventListener("click", () => {
-  scoreLog.textContent = '';
-  gamePlayLog.textContent = '';
-  scoreLog.classList.toggle('logs')
-  gamePlayLog.classList.toggle('logs')
-  restartContainer.removeChild(restartButton)
+  scoreLog.textContent = "";
+  gamePlayLog.textContent = "";
+  scoreLog.classList.toggle("logs");
+  gamePlayLog.classList.toggle("logs");
+  restartContainer.removeChild(restartButton);
   computerScore = 0;
   humanScore = 0;
-})
+});
