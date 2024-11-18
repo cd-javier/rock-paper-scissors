@@ -74,11 +74,7 @@ let humanChoice;
 gameChoice.forEach((button) => {
   button.addEventListener("click", () => {
     humanChoice = button.textContent.toLowerCase();
-    console.log("You chose: " + humanChoice);
+    console.log("You chose: " + humanChoice)
+    playRound(humanChoice, getComputerChoice());
   });
-});
-
-const playButton = document.querySelector("#play-button");
-playButton.addEventListener("click", () => {
-  playRound(humanChoice, getComputerChoice());
 });
