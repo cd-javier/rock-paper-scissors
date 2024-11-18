@@ -51,30 +51,73 @@ let computerScore = 0;
 let humanScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-  console.log("Computer chose: " + computerChoice);
+  displayComputerChoice.textContent = "Computer chose: " + computerChoice;
+  displayHumanChoice.textContent = "You chose: " + humanChoice;
+  gamePlayLog.appendChild(logHeading)
+  gamePlayLog.appendChild(displayComputerChoice);
+  gamePlayLog.appendChild(displayHumanChoice);
   if (
     (humanChoice === "rock" && computerChoice === "scissors") || // Basic game play
     (humanChoice === "paper" && computerChoice === "rock") ||
     (humanChoice === "scissors" && computerChoice === "paper")
   ) {
     humanScore++; // Score is updated
-    console.log("You won");
+    displayResult.textContent = getWinPhrase();
+    gamePlayLog.appendChild(displayResult);
   } else if (humanChoice === computerChoice) {
-    console.log("You tied");
+    displayResult.textContent = getTiePhrase();
+    gamePlayLog.appendChild(displayResult);
   } else {
     computerScore++;
-    console.log("You lost");
+    displayResult.textContent = getLosePhrase();
+    gamePlayLog.appendChild(displayResult);
   }
-  console.log("Your score: " + humanScore + " | Computer score: " + computerScore);
+  computerScoreDisplay.textContent = "Computer: " + computerScore;
+  humanScoreDisplay.textContent = "Human: " + humanScore;
+  scoreLog.appendChild(scoreHeading);
+  scoreLog.appendChild(computerScoreDisplay);
+  scoreLog.appendChild(humanScoreDisplay);
 }
 
 const gameChoice = document.querySelectorAll(".game-choice");
-let humanChoice;
+
+const scoreLog = document.querySelector("#score-log");
+const scoreHeading = document.createElement("h2");
+scoreHeading.textContent = "SCORE";
+const computerScoreDisplay = document.createElement("p");
+const humanScoreDisplay = document.createElement("p");
+
+const gamePlayLog = document.querySelector("#game-play-log");
+const logHeading = document.createElement("h2");
+logHeading.textContent = "GAME LOG"
+const displayComputerChoice = document.createElement("p");
+const displayHumanChoice = document.createElement("p");
+const displayResult = document.createElement("p");
+const finalResult = document.createElement("p");
+
+function displayFinalResult() {
+  if (humanScore > computerScore) {
+    finalResult.textContent = "You win!";
+  } else {
+    finalResult.textContent = "You lose!";
+  }
+
+  if (humanScore === 5) {
+    gamePlayLog.appendChild(finalResult);
+    humanScore = 0;
+    computerScore = 0;
+  } else if (computerScore === 5) {
+    gamePlayLog.appendChild(finalResult);
+    humanScore = 0;
+    computerScore = 0;
+  }
+}
 
 gameChoice.forEach((button) => {
   button.addEventListener("click", () => {
+    let humanChoice;
     humanChoice = button.textContent.toLowerCase();
-    console.log("You chose: " + humanChoice)
     playRound(humanChoice, getComputerChoice());
+    displayFinalResult();
   });
 });
