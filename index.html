@@ -6,19 +6,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="preload" href="./assets/play/r-l.png" as="image">
+    <link rel="preload" href="./assets/play/r-r.png" as="image">
+    <link rel="preload" href="./assets/play/p-l.png" as="image">
+    <link rel="preload" href="./assets/play/p-r.png" as="image">
+    <link rel="preload" href="./assets/play/s-l.png" as="image">
+    <link rel="preload" href="./assets/play/s-r.png" as="image">
+
 </head>
 
 <body>
-    <div class="button-container">
-        <button class="game-choice">Rock</button>
-        <button class="game-choice">Paper</button>
-        <button class="game-choice">Scissors</button>
+
+    <h1>ROCK PAPER SCISSORS</h1>
+
+    <div class="board">
+        <!--
+         <div class="display-message" id="display-message">CHOOSE YOUR PLAY:</div>
+
+        <div class="play-icons">
+            <button class="icon r-icon"></button>
+            <button class="icon p-icon"></button>
+            <button class="icon s-icon"></button>
+            <div class="button-descriptor">ROCK</div>
+            <div class="button-descriptor">PAPER</div>
+            <div class="button-descriptor">SCISSORS</div>
+        </div>
+         -->
+
+        <!-- 
+         <div class="display-message" id="display-message"></div>
+
+         <div class="hands">
+            <img src="./assets/play/r-l.png" alt="" class="left-hand fist">
+            <img src="./assets/play/r-r.png" alt="" class="right-hand fist">
+         </div>
+         -->
+
+        <!--
+        <div class="display-message" id="display-message"> YOU WIN!</div>
+        <button class="next-round">NEXT ROUND</button>
+
+        <div class="hands">
+            <img src="./assets/play/r-l.png" alt="" class="left-hand">
+            <img src="./assets/play/r-r.png" alt="" class="right-hand">
+        </div> 
+        -->
+
     </div>
-    <div id="log-container">
-        <div id="game-play-log"></div>
-        <div id="score-log"></div>
+
+    <div class="scores">
+        <div class="player-score">
+            YOU
+            <div id="self-points" class="points">
+                <div class="point scored"></div>
+                <div class="point scored"></div>
+                <div class="point"></div>
+                <div class="point"></div>
+                <div class="point"></div>
+            </div>
+        </div>
+
+        <div class="player-score">
+            <div id="cpu-points" class="points">
+                <div class="point"></div>
+                <div class="point"></div>
+                <div class="point"></div>
+                <div class="point scored"></div>
+                <div class="point scored"></div>
+            </div>
+            CPU
+        </div>
     </div>
-    <div id="restart-container" class="button-container"></div>
 
     <script src="./script.js"></script>
 </body>
