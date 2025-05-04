@@ -13,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 
   width: 80vw;
   max-width: 800px;
@@ -52,8 +53,8 @@ body {
 }
 
 button.icon {
-  width: 100px;
-  height: 100px;
+  width: min(100px, 20vw);
+  height: min(100px, 20vw);
   background-color: var(--bg);
   outline: none;
   border: none;
@@ -87,7 +88,7 @@ button.icon.s-icon {
 }
 
 .hands img {
-  width: 300px;
+  width: min(300px, 30vw);
 }
 
 .fist {
