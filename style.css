@@ -188,3 +188,10 @@ button.icon.s-icon {
 .point.scored {
   background: var(--green);
 }
+
+@media screen and (max-width: 500px) {
+  .point {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+}
