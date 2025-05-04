@@ -1,161 +1,142 @@
-let computerScore = 0;
-let humanScore = 0;
+let selfScore, cpuScore;
 
-// -----------------------
-//  DOM Queries
-// -----------------------
+function renderScore() {
+  function renderIndScore(player) {
+    const scoreDisplay = document.getElementById(`${player}-points`);
+    const currentScore = player === 'self' ? selfScore : cpuScore;
 
-// Buttons
-const gameChoice = document.querySelectorAll(".game-choice");
+    scoreDisplay.innerHTML = '';
 
-// Score Display
-const scoreLog = document.querySelector("#score-log");
-const scoreHeading = document.createElement("h2");
-scoreHeading.textContent = "SCORE";
-const computerScoreDisplay = document.createElement("p");
-const humanScoreDisplay = document.createElement("p");
+    for (i = 1; i <= 5; i++) {
+      const point = document.createElement('div');
+      point.classList.add('point');
+      point.classList.add(i <= currentScore ? 'scored' : null);
 
-// Game Play Display
-const gamePlayLog = document.querySelector("#game-play-log");
-const logHeading = document.createElement("h2");
-logHeading.textContent = "GAME LOG";
-const displayComputerChoice = document.createElement("p");
-const displayHumanChoice = document.createElement("p");
-const displayResult = document.createElement("p");
-displayResult.classList.add("italics");
-const finalResult = document.createElement("p");
-finalResult.classList.add("final-result");
+      if (player === 'self') scoreDisplay.appendChild(point);
+      if (player === 'cpu') scoreDisplay.prepend(point);
+    }
+  }
 
-// Restart Button
-const restartContainer = document.querySelector("#restart-container");
-const restartButton = document.createElement("button");
-restartButton.textContent = "Restart";
+  renderIndScore('self');
+  renderIndScore('cpu');
+}
 
-// -----------------------
-//  Utility Functions
-// -----------------------
+function getResult(selfChoice, cpuChoice) {
+  if (
+    (selfChoice === 'r' && cpuChoice === 's') ||
+    (selfChoice === 'p' && cpuChoice === 'r') ||
+    (selfChoice === 's' && cpuChoice === 'p')
+  ) {
+    return 'self';
+  } else if (selfChoice === cpuChoice) {
+    return 'tie';
+  } else {
+    return 'cpu';
+  }
+}
 
-function getComputerChoice() {
-  // The computer chooses at random between the three options
-  const gameChoices = ["rock", "paper", "scissors"];
+function getCpuChoice() {
+  const gameChoices = 'rps';
   return gameChoices[Math.floor(Math.random() * 3)];
 }
-function getWinPhrase() {
-  // Create an array of different phrases to cheer the user
-  const phrases = [
-    "You win this one, you're the best!",
-    "You win! Victory is yours! Your fingers are magic!",
-    "You win! Winner winner chicken dinner!",
-    "You win! Take a bow, champion!",
-    "You win! You crushed it like a pro gamer!",
-    "You win! The crowd goes wild (in your head)!",
-    "You win! Bow before the Rock Paper Scissors master!",
-    "You win! The game can't handle your brilliance!",
-  ];
-  return phrases[Math.floor(Math.random() * phrases.length)]; // Choose one at random
-}
-function getLosePhrase() {
-  const phrases = [
-    "You lost this one, you're a loser!",
-    "You lost, you suck!",
-    "You lost! Defeat! Better luck next time, noob!",
-    "You lost! Ouch, you just got schooled!",
-    "You lost! Maybe try closing your eyes next time?",
-    "You lost! Did you even try?",
-    "You lost! The computer just flexed on you.",
-    "You lost! Maybe this isn't your thing.",
-  ];
-  return phrases[Math.floor(Math.random() * phrases.length)];
-}
-function getTiePhrase() {
-  const phrases = [
-    "Tied... boriiiiing.",
-    "Tied! How original.",
-    "Tied! It's a draw! How thrilling... not.",
-    "Tied! You both must be psychics.",
-    "Tied! Nobody wins. Nobody cares.",
-    "Tied! A thrilling battle of equals.",
-    "Tied! Are you two long-lost twins or what?",
-    "Tied! The suspense... or lack thereof.",
-  ];
-  return phrases[Math.floor(Math.random() * phrases.length)];
-}
 
-// -----------------------
-//  Game Logic Functions
-// -----------------------
+function playRound() {
+  const board = document.getElementById('board');
 
-function updateDisplay(humanChoice, computerChoice) {
-  displayComputerChoice.textContent = "Computer chose: " + computerChoice; // Create text that will be displayed
-  displayHumanChoice.textContent = "You chose: " + humanChoice;
-  gamePlayLog.appendChild(logHeading); // Display text
-  gamePlayLog.appendChild(displayComputerChoice);
-  gamePlayLog.appendChild(displayHumanChoice);
-  gamePlayLog.appendChild(displayResult); // Display cheer
-  computerScoreDisplay.textContent = "Computer: " + computerScore; // Update score displays
-  humanScoreDisplay.textContent = "Human: " + humanScore;
-  scoreLog.appendChild(scoreHeading); // Display scores
-  scoreLog.appendChild(computerScoreDisplay);
-  scoreLog.appendChild(humanScoreDisplay);
-}
+  board.innerHTML = `
+    <div class="display-message" id="display-message">CHOOSE YOUR PLAY:</div>
 
-function playRound(humanChoice, computerChoice) {
-  if (
-    (humanChoice === "rock" && computerChoice === "scissors") || // Basic game play
-    (humanChoice === "paper" && computerChoice === "rock") ||
-    (humanChoice === "scissors" && computerChoice === "paper")
-  ) {
-    humanScore++; // Update Score
-    displayResult.textContent = getWinPhrase(); // Update cheer display
-  } else if (humanChoice === computerChoice) {
-    displayResult.textContent = getTiePhrase();
-  } else {
-    computerScore++;
-    displayResult.textContent = getLosePhrase();
-  }
+    <div class="play-icons" id="play-icons">
+        <button class="icon r-icon"></button>
+        <button class="icon p-icon"></button>
+        <button class="icon s-icon"></button>
+        <div class="button-descriptor">ROCK</div>
+        <div class="button-descriptor">PAPER</div>
+        <div class="button-descriptor">SCISSORS</div>
+    </div>
+  `;
 
-  updateDisplay(humanChoice, computerChoice);
+  document.getElementById('play-icons').addEventListener('click', (e) => {
+    const target = e.target;
 
-  if (computerScore === 5 || humanScore === 5) {
-    endGame();
-  }
-}
-
-function endGame() {
-  if (humanScore > computerScore) {
-    finalResult.textContent = "YOU WIN!";
-  } else {
-    finalResult.textContent = "YOU LOSE!";
-  }
-
-  restartContainer.appendChild(restartButton);
-  gamePlayLog.appendChild(finalResult);
-}
-
-function resetGame() {
-  scoreLog.textContent = "";
-  gamePlayLog.textContent = "";
-  scoreLog.classList.toggle("logs");
-  gamePlayLog.classList.toggle("logs");
-  restartContainer.removeChild(restartButton);
-  computerScore = 0;
-  humanScore = 0;
-}
-
-// -----------------------
-//  Event Listeners
-// -----------------------
-
-gameChoice.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (humanScore < 5 && computerScore < 5) {
-      let humanChoice;
-      humanChoice = button.textContent.toLowerCase();
-      gamePlayLog.classList.add("logs");
-      scoreLog.classList.add("logs");
-      playRound(humanChoice, getComputerChoice());
+    if (!target.classList.contains('icon')) {
+      return;
     }
-  });
-});
 
-restartButton.addEventListener("click", resetGame);
+    let selfChoice;
+    const cpuChoice = getCpuChoice();
+    let displayMessage;
+    let btnText = 'NEXT ROUND';
+
+    if (target.classList.contains('r-icon')) {
+      selfChoice = 'r';
+    } else if (target.classList.contains('p-icon')) {
+      selfChoice = 'p';
+    } else if (target.classList.contains('s-icon')) {
+      selfChoice = 's';
+    }
+
+    const round = getResult(selfChoice, cpuChoice);
+
+    switch (round) {
+      case 'self':
+        selfScore++;
+        displayMessage = 'YOU WIN!';
+        break;
+      case 'cpu':
+        cpuScore++;
+        displayMessage = 'YOU LOSE!';
+        break;
+      case 'tie':
+        displayMessage = "IT'S A TIE";
+        break;
+    }
+
+    let isGameOver = cpuScore === 5 || selfScore === 5;
+
+    if (isGameOver) {
+      displayMessage += ' GAME OVER.';
+      btnText = 'RESTART GAME';
+    }
+
+    board.innerHTML = `
+        <div class="display-message" id="display-message" style="visibility:hidden;">YOU WIN</div>
+        <button class="next-round" style="visibility:hidden;">NEXT ROUND</button>
+
+        <div class="hands">
+          <img src="./assets/play/r-l.png" alt="" class="left-hand fist">
+          <img src="./assets/play/r-r.png" alt="" class="right-hand fist">
+        </div>
+    `;
+
+    document
+      .querySelector('.left-hand')
+      .addEventListener('animationend', () => {
+        board.innerHTML = `
+      <div class="display-message" id="display-message">${displayMessage}</div>
+        <button class="next-round">${btnText}</button>
+
+        <div class="hands">
+            <img src="./assets/play/${selfChoice}-l.png" alt="" class="left-hand">
+            <img src="./assets/play/${cpuChoice}-r.png" alt="" class="right-hand">
+        </div>
+    `;
+        renderScore();
+
+        const nextRoundBtn = document.querySelector('button.next-round');
+
+        if (isGameOver) nextRoundBtn.addEventListener('click', init);
+        if (!isGameOver) nextRoundBtn.addEventListener('click', playRound);
+      });
+  });
+}
+
+function init() {
+  selfScore = 0;
+  cpuScore = 0;
+
+  playRound();
+  renderScore();
+}
+
+init();

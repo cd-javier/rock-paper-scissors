@@ -91,7 +91,7 @@ button.icon.s-icon {
 }
 
 .fist {
-  animation: enter-hand 4s;
+  animation: enter-hand 3s ease;
 }
 
 .left-hand {
