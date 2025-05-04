@@ -138,8 +138,9 @@ button.icon.s-icon {
     transform: none;
   }
 
-  90% {
+  95% {
     transform: rotate(var(--turn));
+    animation-timing-function: ease-in;
   }
 }
 
