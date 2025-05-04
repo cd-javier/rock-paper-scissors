@@ -194,4 +194,8 @@ button.icon.s-icon {
     width: 0.5rem;
     height: 0.5rem;
   }
+
+  .play-icons {
+    column-gap: 1rem;
+  }
 }
